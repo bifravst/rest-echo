@@ -1,8 +1,6 @@
 import {
-	aws_apigateway as ApiGateway,
 	Duration,
 	aws_dynamodb as DynamoDB,
-	aws_iam as IAM,
 	aws_lambda as Lambda,
 	RemovalPolicy,
 } from 'aws-cdk-lib'
@@ -12,7 +10,7 @@ import { readFileSync } from 'node:fs'
 import path from 'node:path'
 
 export class RESTAPI extends Construct {
-	public readonly api: ApiGateway.RestApi
+	public readonly lambdaURL: Lambda.FunctionUrl
 	public constructor(parent: Construct) {
 		super(parent, 'RESTAPI')
 
@@ -30,7 +28,7 @@ export class RESTAPI extends Construct {
 			handler: 'index.handler',
 			architecture: Lambda.Architecture.ARM_64,
 			runtime: Lambda.Runtime.NODEJS_18_X,
-			timeout: Duration.seconds(5),
+			timeout: Duration.seconds(1),
 			memorySize: 512,
 			code: Lambda.Code.fromInline(
 				readFileSync(path.join(process.cwd(), 'lambda', 'api.js'), 'utf-8'),
@@ -43,19 +41,8 @@ export class RESTAPI extends Construct {
 			logRetention: RetentionDays.ONE_DAY,
 		})
 		storage.grantReadWriteData(lambda)
-
-		// This is the API Gateway, AWS CDK automatically creates a prod stage and deployment
-		this.api = new ApiGateway.RestApi(this, 'api', {
-			restApiName: `REST Echo API`,
-			description: 'API to be used as a simple REST demo API',
-			binaryMediaTypes: ['application/octet-stream'],
-		})
-		const proxyResource = this.api.root.addResource('{proxy+}')
-		proxyResource.addMethod('ANY', new ApiGateway.LambdaIntegration(lambda))
-		// API Gateway needs to be able to call the lambda
-		lambda.addPermission('InvokeByApiGateway', {
-			principal: new IAM.ServicePrincipal('apigateway.amazonaws.com'),
-			sourceArn: this.api.arnForExecuteApi(),
+		this.lambdaURL = lambda.addFunctionUrl({
+			authType: Lambda.FunctionUrlAuthType.NONE,
 		})
 	}
 }
