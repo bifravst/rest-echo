@@ -36,10 +36,6 @@ export class CloudFront extends Construct {
 				compress: false,
 				smoothStreaming: false,
 				viewerProtocolPolicy: Cf.ViewerProtocolPolicy.ALLOW_ALL,
-				cachePolicy: new Cf.CachePolicy(this, 'defaultCachePolicy', {
-					defaultTtl: Duration.minutes(1),
-					minTtl: Duration.minutes(1),
-				}),
 			},
 			domainNames: ['echo.thingy.rocks'],
 			certificate: CertificateManager.Certificate.fromCertificateArn(

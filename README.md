@@ -7,8 +7,9 @@
 [![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg)](https://github.com/prettier/prettier/)
 [![ESLint: TypeScript](https://img.shields.io/badge/ESLint-TypeScript-blue.svg)](https://github.com/typescript-eslint/typescript-eslint)
 
-A REST echo server used for the [Nordic Developer Academy](https://academy.nordicsemi.com/)
-developed using [AWS CDK](https://aws.amazon.com/cdk) in
+A REST echo server used for the
+[Nordic Developer Academy](https://academy.nordicsemi.com/) developed using
+[AWS CDK](https://aws.amazon.com/cdk) in
 [TypeScript](https://www.typescriptlang.org/).
 
 ## Installation in your AWS account
@@ -35,3 +36,14 @@ npx cdk deploy
 
 Once the API is deployed, you can interact with it:
 
+```bash
+# Generate a new random ID
+NEW_ID=`http POST https://echo.thingy.rocks/new`
+# Store a value
+# Allowed characters: /0-9a-z _:!.,;-/, max length 255
+http -v PUT https://echo.thingy.rocks/$NEW_ID <<< Hello
+# Get the value, also works in the browser
+http -v https://echo.thingy.rocks/$NEW_ID
+# Delete the value
+http -v DELETE https://echo.thingy.rocks/$NEW_ID
+```
