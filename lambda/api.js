@@ -19,7 +19,15 @@ module.exports = {
 		console.log(JSON.stringify({ event }))
 		const method = event.requestContext.http.method
 		const path = event.requestContext.http.path
-		const key = path.split('/')[1]
+		const keySegment = path.split('/')[1]
+		const key = keySegment.slice(0, 255).replace(/[^0-9a-z_-]/gi, '')
+
+		if (keySegment !== key) {
+			return {
+				statusCode: 400,
+				body: 'Key is invalid.',
+			}
+		}
 
 		console.log(JSON.stringify({ method, key }))
 
