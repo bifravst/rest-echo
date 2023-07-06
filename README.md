@@ -47,3 +47,54 @@ http -v https://echo.thingy.rocks/$NEW_ID
 # Delete the value
 http -v DELETE https://echo.thingy.rocks/$NEW_ID
 ```
+
+## Continuous Deployment with GitHub Actions
+
+Create a GitHub environment `production`.
+
+Store the role used for continuous deployment as a secret:
+
+```bash
+CD_ROLE_ARN=`aws cloudformation describe-stacks --stack-name ${STACK_NAME:-rest-echo} | jq -r '.Stacks[0].Outputs[] | select(.OutputKey == "cdRoleArn") | .OutputValue'`
+gh secret set AWS_ROLE --env production --body "${CD_ROLE_ARN}"
+```
+
+Store the stack name and the region as a variable:
+
+```bash
+gh variable set STACK_NAME --env production --body "${STACK_NAME:-rest-echo}"
+gh variable set AWS_REGION --env production --body "${AWS_REGION}"
+```
+
+Optionally, if you are using a custom domain name, store the domain name and the
+AWS certificate ID:
+
+```bash
+gh variable set DOMAIN_NAME --env production --body "echo.thingy.rocks"
+gh variable set CERTIFICATE_ID --env production --body "067dc75e-e8a7-4a28-aaa8-ff26f43f639c"
+```
+
+## CI
+
+To set up continuous integration, prepare **a separate** AWS account and run the
+following command to create the necessary resources for GitHub Actions:
+
+```bash
+npx cdk -a 'npx tsx --no-warnings cdk/rest-echo-ci.ts' deploy
+```
+
+Create a GitHub environment `ci`.
+
+Store the role used for continuous integration as a secret:
+
+```bash
+CI_ROLE_ARN=`aws cloudformation describe-stacks --stack-name ${STACK_NAME:-rest-echo}-ci | jq -r '.Stacks[0].Outputs[] | select(.OutputKey == "roleArn") | .OutputValue'`
+gh secret set AWS_ROLE --env ci --body "${CI_ROLE_ARN}"
+```
+
+Store the stack name and the region as a variable:
+
+```bash
+gh variable set STACK_NAME --env ci --body "${STACK_NAME:-rest-echo}"
+gh variable set AWS_REGION --env ci --body "${AWS_REGION}"
+```

@@ -1,6 +1,6 @@
 import { IAMClient } from '@aws-sdk/client-iam'
 import pJSON from '../package.json'
-import { RestEchoApp } from './RestEchoApp.js'
+import { RestEchoCIApp } from './RestEchoCIApp.js'
 import { ensureGitHubOIDCProvider } from './ensureGitHubOIDCProvider.js'
 
 const repoUrl = new URL(pJSON.repository.url)
@@ -11,18 +11,9 @@ const repository = {
 
 const iam = new IAMClient({})
 
-new RestEchoApp({
+new RestEchoCIApp({
 	repository,
 	gitHubOICDProviderArn: await ensureGitHubOIDCProvider({
 		iam,
 	}),
-	isTest: process.env.CI === '1',
-	customDomain:
-		process.env.DOMAIN_NAME !== undefined &&
-		process.env.CERTIFICATE_ID !== undefined
-			? {
-					domainName: process.env.DOMAIN_NAME,
-					certificateId: process.env.CERTIFICATE_ID,
-			  }
-			: undefined,
 })

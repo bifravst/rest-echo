@@ -26,6 +26,10 @@ export class CloudFront extends Construct {
 			},
 		)
 
+		const customDomainName = this.node.tryGetContext('customDomainName')
+		const customDomainCertificateId = this.node.tryGetContext(
+			'customDomainCertificateId',
+		)
 		this.distribution = new Cf.Distribution(this, 'cloudFront', {
 			enabled: true,
 			priceClass: Cf.PriceClass.PRICE_CLASS_100,
@@ -37,15 +41,19 @@ export class CloudFront extends Construct {
 				smoothStreaming: false,
 				viewerProtocolPolicy: Cf.ViewerProtocolPolicy.ALLOW_ALL,
 			},
-			domainNames: ['echo.thingy.rocks'],
-			certificate: CertificateManager.Certificate.fromCertificateArn(
-				this,
-				'distributionCert',
-				// us-east-1 is required for CloudFront
-				`arn:aws:acm:us-east-1:${
-					Stack.of(this).account
-				}:certificate/067dc75e-e8a7-4a28-aaa8-ff26f43f639c`,
-			),
+			domainNames:
+				customDomainName !== undefined ? [customDomainName] : undefined,
+			certificate:
+				customDomainCertificateId !== undefined
+					? CertificateManager.Certificate.fromCertificateArn(
+							this,
+							'distributionCert',
+							// us-east-1 is required for CloudFront
+							`arn:aws:acm:us-east-1:${
+								Stack.of(this).account
+							}:certificate/${customDomainCertificateId}`,
+					  )
+					: undefined,
 		})
 	}
 }

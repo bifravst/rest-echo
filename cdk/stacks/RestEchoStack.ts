@@ -23,10 +23,18 @@ export class RestEchoStack extends Stack {
 		const api = new RESTAPI(this)
 		const cf = new CloudFront(this, api)
 
-		new ContinuousDeployment(this, {
-			repository,
-			gitHubOICDProviderArn,
-		})
+		if (this.node.tryGetContext('isTest') !== true) {
+			const cd = new ContinuousDeployment(this, {
+				repository,
+				gitHubOICDProviderArn,
+			})
+
+			new CfnOutput(this, 'cdRoleArn', {
+				exportName: `${this.stackName}:cdRoleArn`,
+				description: 'The role ARN used for continuous deployment',
+				value: cd.role.roleArn,
+			})
+		}
 
 		new CfnOutput(this, 'apiURL', {
 			exportName: `${this.stackName}:apiURL`,
@@ -38,4 +46,5 @@ export class RestEchoStack extends Stack {
 
 export type StackOutputs = {
 	apiURL: string
+	cdRoleArn?: string
 }
