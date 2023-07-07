@@ -61,7 +61,7 @@ jobs:
       - name: Run End-to-End Tests
         run: |
           set -o pipefail
-          npx tsx --no-warnings ./feature-runner/run-features.ts | npx tsx --no-warnings ./feature-runner/console-reporter.ts
+          npx tsx --no-warnings ./features/run-features.ts | npx tsx --no-warnings ./features/console-reporter.ts
 
       - name: Clean up End-to-End test resources
         env:
