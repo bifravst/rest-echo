@@ -1,3 +1,5 @@
+/* eslint @typescript-eslint/no-require-imports: 0 */
+/* eslint @typescript-eslint/no-var-requires: 0 */
 const {
 	DynamoDBClient,
 	GetItemCommand,
@@ -42,75 +44,74 @@ module.exports = {
 			}
 		}
 
-		switch (method) {
-			case 'GET':
-				const { Item } = await db.send(
-					new GetItemCommand({
-						TableName,
-						Key: {
-							storageKey: {
-								S: key,
-							},
+		if (method === 'GET') {
+			const { Item } = await db.send(
+				new GetItemCommand({
+					TableName,
+					Key: {
+						storageKey: {
+							S: key,
 						},
-					}),
-				)
-				if (Item === undefined) {
-					return {
-						statusCode: 404,
-					}
-				}
-				return {
-					statusCode: 200,
-					body: unmarshall(Item).payload,
-					headers: {
-						'Content-type': 'text/plain; charset=utf-8',
-						...cacheHeaders,
 					},
-				}
-			case 'PUT':
-				const payload = event.body
-					.trim()
-					.slice(0, 255)
-					.replace(/[^0-9a-z _:!.,;-]/gi, '')
-				if (payload !== event.body.trim()) {
-					return {
-						statusCode: 400,
-						body: 'Body is invalid.',
-					}
-				}
-				await db.send(
-					new PutItemCommand({
-						TableName,
-						Item: {
-							storageKey: {
-								S: key,
-							},
-							payload: {
-								S: payload,
-							},
-							ttl: {
-								N: (Date.now() / 1000 + 60 * 60).toString(),
-							},
-						},
-					}),
-				)
+				}),
+			)
+			if (Item === undefined) {
 				return {
-					statusCode: 202,
+					statusCode: 404,
 				}
-			case 'DELETE':
-				await db.send(
-					new DeleteItemCommand({
-						TableName,
-						Key: {
-							storageKey: {
-								S: key,
-							},
+			}
+			return {
+				statusCode: 200,
+				body: unmarshall(Item).payload,
+				headers: {
+					'Content-type': 'text/plain; charset=utf-8',
+					...cacheHeaders,
+				},
+			}
+		} else if (method === 'PUT') {
+			const payload = event.body
+			.trim()
+			.slice(0, 255)
+			.replace(/[^0-9a-z _:!.,;-]/gi, '')
+		if (payload !== event.body.trim()) {
+			return {
+				statusCode: 400,
+				body: 'Body is invalid.',
+			}
+		}
+		await db.send(
+			new PutItemCommand({
+				TableName,
+				Item: {
+					storageKey: {
+						S: key,
+					},
+					payload: {
+						S: payload,
+					},
+					ttl: {
+						N: (Date.now() / 1000 + 60 * 60).toString(),
+					},
+				},
+			}),
+		)
+		return {
+			statusCode: 202,
+		}
+		} else if (method === 'DELETE') {
+			await db.send(
+				new DeleteItemCommand({
+					TableName,
+					Key: {
+						storageKey: {
+							S: key,
 						},
-					}),
-				)
-				return {
-					statusCode: 202,
-				}
+					},
+				}),
+			)
+			return {
+				statusCode: 202,
+			}
 		}
 
 		return {
