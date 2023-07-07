@@ -34,19 +34,8 @@ npx cdk deploy
 
 ## Usage
 
-Once the API is deployed, you can interact with it:
-
-```bash
-# Generate a new random ID
-NEW_ID=`http POST https://echo.thingy.rocks/new`
-# Store a value
-# Allowed characters: /0-9a-z _:!.,;-/, max length 255
-http -v PUT https://echo.thingy.rocks/$NEW_ID <<< Hello
-# Get the value, also works in the browser
-http -v https://echo.thingy.rocks/$NEW_ID
-# Delete the value
-http -v DELETE https://echo.thingy.rocks/$NEW_ID
-```
+Once the API is deployed, you can interact with it as
+[documented here](./features/REST-echo-API.feature.md).
 
 ## Continuous Deployment with GitHub Actions
 
