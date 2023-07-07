@@ -70,34 +70,34 @@ module.exports = {
 			}
 		} else if (method === 'PUT') {
 			const payload = event.body
-			.trim()
-			.slice(0, 255)
-			.replace(/[^0-9a-z _:!.,;-]/gi, '')
-		if (payload !== event.body.trim()) {
-			return {
-				statusCode: 400,
-				body: 'Body is invalid.',
+				.trim()
+				.slice(0, 255)
+				.replace(/[^0-9a-z _:!.,;-]/gi, '')
+			if (payload !== event.body.trim()) {
+				return {
+					statusCode: 400,
+					body: 'Body is invalid.',
+				}
 			}
-		}
-		await db.send(
-			new PutItemCommand({
-				TableName,
-				Item: {
-					storageKey: {
-						S: key,
+			await db.send(
+				new PutItemCommand({
+					TableName,
+					Item: {
+						storageKey: {
+							S: key,
+						},
+						payload: {
+							S: payload,
+						},
+						ttl: {
+							N: (Date.now() / 1000 + 60 * 60).toString(),
+						},
 					},
-					payload: {
-						S: payload,
-					},
-					ttl: {
-						N: (Date.now() / 1000 + 60 * 60).toString(),
-					},
-				},
-			}),
-		)
-		return {
-			statusCode: 202,
-		}
+				}),
+			)
+			return {
+				statusCode: 202,
+			}
 		} else if (method === 'DELETE') {
 			await db.send(
 				new DeleteItemCommand({
