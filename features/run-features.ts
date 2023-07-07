@@ -6,6 +6,7 @@ import * as path from 'path'
 import { STACK_NAME } from '../cdk/stacks/stackConfig.js'
 import { steps as restSteps } from './rest-steps.js'
 import { store } from './storage.js'
+import type { StackOutputs } from '../cdk/stacks/RestEchoStack.js'
 
 /**
  * This file configures the BDD Feature runner
@@ -14,12 +15,12 @@ import { store } from './storage.js'
  * step runners and reporters.
  */
 
-const config = await stackOutput(new CloudFormationClient({}))<{
-	apiURL: string
-}>(STACK_NAME)
+const config = await stackOutput(new CloudFormationClient({}))<StackOutputs>(
+	STACK_NAME,
+)
 
 export type World = {
-	apiURL: string
+	domainName: string
 } & {
 	responseBody?: string
 }
@@ -57,7 +58,7 @@ const runner = await runFolder<World>({
 runner.addStepRunners(...restSteps()).addStepRunners(store)
 
 const res = await runner.run({
-	apiURL: config.apiURL,
+	domainName: config.domainName,
 })
 
 console.log(JSON.stringify(res, null, 2))

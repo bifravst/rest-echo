@@ -37,6 +37,8 @@ npx cdk deploy
 Once the API is deployed, you can interact with it as
 [documented here](./features/REST-echo-API.feature.md).
 
+Both non-secure HTTP and secure HTTPs are supported.
+
 ## Continuous Deployment with GitHub Actions
 
 Create a GitHub environment `production`.

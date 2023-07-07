@@ -36,15 +36,15 @@ export class RestEchoStack extends Stack {
 			})
 		}
 
-		new CfnOutput(this, 'apiURL', {
-			exportName: `${this.stackName}:apiURL`,
+		new CfnOutput(this, 'domainName', {
+			exportName: `${this.stackName}:domainName`,
 			description: 'The API URL',
-			value: `https://${cf.distribution.distributionDomainName}`,
+			value: cf.domainName,
 		})
 	}
 }
 
 export type StackOutputs = {
-	apiURL: string
+	domainName: string
 	cdRoleArn?: string
 }

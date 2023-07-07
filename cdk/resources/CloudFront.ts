@@ -10,7 +10,7 @@ import { Construct } from 'constructs'
 import type { RESTAPI } from './RESTAPI'
 
 export class CloudFront extends Construct {
-	public readonly distribution: Cf.Distribution
+	public readonly domainName: string
 	public constructor(parent: Construct, restAPI: RESTAPI) {
 		super(parent, 'CloudFront')
 
@@ -30,7 +30,7 @@ export class CloudFront extends Construct {
 		const customDomainCertificateId = this.node.tryGetContext(
 			'customDomainCertificateId',
 		)
-		this.distribution = new Cf.Distribution(this, 'cloudFront', {
+		const distribution = new Cf.Distribution(this, 'cloudFront', {
 			enabled: true,
 			priceClass: Cf.PriceClass.PRICE_CLASS_100,
 			defaultBehavior: {
@@ -55,5 +55,9 @@ export class CloudFront extends Construct {
 					  )
 					: undefined,
 		})
+		this.domainName =
+			customDomainName === undefined
+				? distribution.domainName
+				: customDomainName
 	}
 }

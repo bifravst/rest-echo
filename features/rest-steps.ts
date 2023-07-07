@@ -17,7 +17,6 @@ export const steps = (): StepRunner<World>[] => {
 			step,
 			log: {
 				step: { progress },
-				feature: { progress: featureProgress },
 			},
 			context,
 		}: StepRunnerArgs<World>): Promise<StepRunResult> => {
@@ -29,16 +28,16 @@ export const steps = (): StepRunner<World>[] => {
 						Type.Literal('PUT'),
 						Type.Literal('DELETE'),
 					]),
+					endpoint: Type.RegEx(/^https?:\/\/[^/]+/),
 					resource: Type.RegEx(/^\/.+/),
 					hasBody: Type.Optional(Type.Literal(' with')),
 				}),
 			)(
-				/^I (?<method>(GET|POST|PUT|DELETE)) (?:to )?`(?<resource>\/[^`]+)`(?<hasBody> with)?$/,
+				/^I (?<method>(GET|POST|PUT|DELETE)) (?:to )?`(?<endpoint>https?:\/\/[^/]+)(?<resource>\/[^`]+)`(?<hasBody> with)?$/,
 				step.title,
 			)
 			if (match === null) return noMatch
-			progress(match.resource ?? '/', context.apiURL)
-			const url = new URL(match.resource ?? '/', context.apiURL).toString()
+			const url = new URL(match.resource, match.endpoint).toString()
 			const method = match.method ?? 'GET'
 			progress(`${method} ${url}`)
 			let body = undefined
@@ -58,7 +57,7 @@ export const steps = (): StepRunner<World>[] => {
 				resBody = await res.text()
 				progress(`< ${resBody}`)
 			}
-			featureProgress(`x-amzn-trace-id: ${res.headers.get('x-amzn-trace-id')}`)
+			progress(`x-amzn-trace-id: ${res.headers.get('x-amzn-trace-id')}`)
 			context.responseBody = resBody
 		},
 		async ({ step }: StepRunnerArgs<World>): Promise<StepRunResult> => {

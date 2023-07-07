@@ -54,12 +54,18 @@ jobs:
           echo "STACK_NAME=rest-echo-${RANDOM_STRING}" >> $GITHUB_ENV
 
       - name: Deploy solution stack
+        env:
+          JSII_SILENCE_WARNING_UNTESTED_NODE_VERSION: 1
         run: npx cdk deploy --require-approval never
 
-      - name: Run tests
-        run: npm run test:e2e
+      - name: Run End-to-End Tests
+        run: |
+          set -o pipefail
+          npx tsx --no-warnings ./feature-runner/run-features.ts | npx tsx --no-warnings ./feature-runner/console-reporter.ts
 
       - name: Clean up End-to-End test resources
+        env:
+          JSII_SILENCE_WARNING_UNTESTED_NODE_VERSION: 1
         if: always()
         run: |
           npx cdk destroy -f
