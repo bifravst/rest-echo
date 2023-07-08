@@ -29,11 +29,11 @@ export const steps = (): StepRunner<World>[] => {
 						Type.Literal('DELETE'),
 					]),
 					endpoint: Type.RegEx(/^https?:\/\/[^/]+/),
-					resource: Type.RegEx(/^\/.+/),
+					resource: Type.RegEx(/^\/.*/),
 					hasBody: Type.Optional(Type.Literal(' with')),
 				}),
 			)(
-				/^I (?<method>(GET|POST|PUT|DELETE)) (?:to )?`(?<endpoint>https?:\/\/[^/]+)(?<resource>\/[^`]+)`(?<hasBody> with)?$/,
+				/^I (?<method>(GET|POST|PUT|DELETE)) (?:to )?`(?<endpoint>https?:\/\/[^/]+)(?<resource>\/[^`]*)`(?<hasBody> with)?$/,
 				step.title,
 			)
 			if (match === null) return noMatch
@@ -49,6 +49,7 @@ export const steps = (): StepRunner<World>[] => {
 			res = await fetch(url, {
 				method,
 				body,
+				redirect: 'manual',
 			})
 
 			progress(`${res.status} ${res.statusText}`)
@@ -58,7 +59,7 @@ export const steps = (): StepRunner<World>[] => {
 				progress(`< ${resBody}`)
 			}
 			progress(`x-amzn-trace-id: ${res.headers.get('x-amzn-trace-id')}`)
-			context.responseBody = resBody
+			context.response = { body: resBody ?? '', headers: res.headers }
 		},
 		async ({ step }: StepRunnerArgs<World>): Promise<StepRunResult> => {
 			const match = matchGroups(
@@ -76,6 +77,23 @@ export const steps = (): StepRunner<World>[] => {
 		}: StepRunnerArgs<World>): Promise<StepRunResult> => {
 			const match = matchGroups(
 				Type.Object({
+					header: Type.String(),
+					expected: Type.String(),
+				}),
+			)(
+				/^the response `(?<header>[^`]+)` header should equal `(?<expected>[^`]+)`$/,
+				step.title,
+			)
+			if (match === null) return noMatch
+
+			assert.equal(context.response?.headers.get(match.header), match.expected)
+		},
+		async ({
+			step,
+			context,
+		}: StepRunnerArgs<World>): Promise<StepRunResult> => {
+			const match = matchGroups(
+				Type.Object({
 					regexp: Type.String(),
 				}),
 			)(
@@ -84,7 +102,7 @@ export const steps = (): StepRunner<World>[] => {
 			)
 			if (match === null) return noMatch
 
-			assert.match(context.responseBody ?? '', new RegExp(match.regexp, 'i'))
+			assert.match(context.response?.body ?? '', new RegExp(match.regexp, 'i'))
 		},
 	]
 }

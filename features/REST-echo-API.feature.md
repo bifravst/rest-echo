@@ -22,7 +22,7 @@ Then the response status code should be `201`
 And the response body should be a string matching
 `^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$`
 
-Given I store `responseBody` into `randomID`
+Given I store `response.body` into `randomID`
 
 ## Using the random ID I can store a value
 

@@ -22,7 +22,7 @@ const config = await stackOutput(new CloudFormationClient({}))<StackOutputs>(
 export type World = {
 	domainName: string
 } & {
-	responseBody?: string
+	response?: { body: string; headers: Headers }
 }
 
 const print = (arg: unknown) =>

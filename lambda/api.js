@@ -45,6 +45,14 @@ module.exports = {
 		}
 
 		if (method === 'GET') {
+			if (key === '') {
+				return {
+					statusCode: 302,
+					headers: {
+						location: 'https://github.com/bifravst/rest-echo',
+					},
+				}
+			}
 			const { Item } = await db.send(
 				new GetItemCommand({
 					TableName,
