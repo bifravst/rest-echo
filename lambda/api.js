@@ -77,11 +77,15 @@ module.exports = {
 				},
 			}
 		} else if (method === 'PUT') {
-			const payload = event.body
+			const body =
+				event.isBase64Encoded === true
+					? Buffer.from(event.body, 'base64').toString()
+					: event.body
+			const payload = body
 				.trim()
 				.slice(0, 255)
 				.replace(/[^0-9a-z _:!.,;-]/gi, '')
-			if (payload !== event.body.trim()) {
+			if (payload !== body.trim()) {
 				return {
 					statusCode: 400,
 					body: 'Body is invalid.',
