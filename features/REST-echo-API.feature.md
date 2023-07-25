@@ -1,7 +1,11 @@
 ---
 variants:
   - protocol: https
+    contentType: text/plain; charset=utf-8
+  - protocol: https
+    contentType: application/octet-stream
   - protocol: http
+    contentType: text/plain; charset=utf-8
 ---
 
 # Interacting with the REST echo API
@@ -29,6 +33,8 @@ Given I store `response.body` into `randomID`
 When I PUT to `${variant.protocol}://${domainName}/${randomID}` with
 
 ```
+Content-type: <variant.contentType>
+
 connect:anything
 ```
 
@@ -47,6 +53,8 @@ And the response body should be a string matching `^connect:anything$`
 When I DELETE `${variant.protocol}://${domainName}/${randomID}`
 
 Then the response status code should be `202`
+
+<!-- @retry:delayExecution=2000 -->
 
 ## The deleted value can no longer be read
 

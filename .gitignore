@@ -8,3 +8,4 @@ npm-debug.log
 cdk.out/
 dist/
 .envrc
+e2e-test-result.json

@@ -9,6 +9,7 @@ import {
 import { Type } from '@sinclair/typebox'
 import assert from 'assert/strict'
 import { type World } from './run-features.js'
+import { parseRequest } from './parseRequest.js'
 
 export const steps = (): StepRunner<World>[] => {
 	let res: Response | undefined = undefined
@@ -41,14 +42,21 @@ export const steps = (): StepRunner<World>[] => {
 			const method = match.method ?? 'GET'
 			progress(`${method} ${url}`)
 			let body = undefined
+			let headers = undefined
 			if (match.hasBody !== undefined) {
-				body = codeBlockOrThrow(step).code
-				progress(`> ${body}`)
+				const parsed = parseRequest(codeBlockOrThrow(step).code)
+				for (const [k, v] of Object.entries(parsed.headers)) {
+					progress(`> ${k}: ${v}`)
+				}
+				progress(`> ${parsed.body}`)
+				body = parsed.body
+				headers = parsed.headers
 			}
 
 			res = await fetch(url, {
 				method,
 				body,
+				headers,
 				redirect: 'manual',
 			})
 

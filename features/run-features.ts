@@ -8,16 +8,10 @@ import { steps as restSteps } from './rest-steps.js'
 import { store } from './storage.js'
 import type { StackOutputs } from '../cdk/stacks/RestEchoStack.js'
 
-/**
- * This file configures the BDD Feature runner
- * by loading the configuration for the test resources
- * (like AWS services) and providing the required
- * step runners and reporters.
- */
-
-const config = await stackOutput(new CloudFormationClient({}))<StackOutputs>(
-	STACK_NAME,
-)
+const domainName =
+	process.env.DOMAIN_NAME ??
+	(await stackOutput(new CloudFormationClient({}))<StackOutputs>(STACK_NAME))
+		.domainName
 
 export type World = {
 	domainName: string
@@ -27,6 +21,11 @@ export type World = {
 
 const print = (arg: unknown) =>
 	typeof arg === 'object' ? JSON.stringify(arg) : arg
+const start = Date.now()
+const ts = () => {
+	const diff = Date.now() - start
+	return chalk.gray(`[${(diff / 1000).toFixed(3).padStart(8, ' ')}]`)
+}
 
 const runner = await runFolder<World>({
 	folder: path.join(process.cwd(), 'features'),
@@ -34,22 +33,30 @@ const runner = await runFolder<World>({
 	logObserver: {
 		onDebug: (info, ...args) =>
 			console.error(
-				chalk.magenta(info.context.keyword),
+				ts(),
+				chalk.magenta.dim(info.context.keyword),
+				chalk.magenta(info.context.title),
 				...args.map((arg) => chalk.cyan(print(arg))),
 			),
 		onError: (info, ...args) =>
 			console.error(
-				chalk.magenta(info.context.keyword),
+				ts(),
+				chalk.magenta.dim(info.context.keyword),
+				chalk.magenta(info.context.title),
 				...args.map((arg) => chalk.red(print(arg))),
 			),
 		onInfo: (info, ...args) =>
 			console.error(
-				chalk.magenta(info.context.keyword),
+				ts(),
+				chalk.magenta.dim(info.context.keyword),
+				chalk.magenta(info.context.title),
 				...args.map((arg) => chalk.green(print(arg))),
 			),
 		onProgress: (info, ...args) =>
 			console.error(
-				chalk.magenta(info.context.keyword),
+				ts(),
+				chalk.magenta.dim(info.context.keyword),
+				chalk.magenta(info.context.title),
 				...args.map((arg) => chalk.yellow(print(arg))),
 			),
 	},
@@ -58,9 +65,10 @@ const runner = await runFolder<World>({
 runner.addStepRunners(...restSteps()).addStepRunners(store)
 
 const res = await runner.run({
-	domainName: config.domainName,
+	domainName,
 })
 
-console.log(JSON.stringify(res, null, 2))
-
-if (!res.ok) process.exit(1)
+console.error(`Writing to stdout ...`)
+process.stdout.write(JSON.stringify(res, null, 2), () => {
+	console.error(`Done`, res.ok ? chalk.green('OK') : chalk.red('ERROR'))
+})
