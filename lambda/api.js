@@ -84,13 +84,6 @@ module.exports = {
 			const payload = body
 				.trim()
 				.slice(0, 255)
-				.replace(/[^0-9a-z _:!.,;-]/gi, '')
-			if (payload !== body.trim()) {
-				return {
-					statusCode: 400,
-					body: 'Body is invalid.',
-				}
-			}
 			await db.send(
 				new PutItemCommand({
 					TableName,
