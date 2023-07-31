@@ -32,5 +32,5 @@ Then the response status code should be `200`
 And the response body should equal
 
 ```
-Y29ubmVjdDphbnl0aGluZwo=
+Y29ubmVjdDphbnl0aGluZw==
 ```

@@ -8,6 +8,7 @@ import {
 } from 'aws-cdk-lib'
 import { Construct } from 'constructs'
 import type { RESTAPI } from './RESTAPI'
+import { CacheHeaderBehavior } from 'aws-cdk-lib/aws-cloudfront'
 
 export class CloudFront extends Construct {
 	public readonly domainName: string
@@ -40,6 +41,10 @@ export class CloudFront extends Construct {
 				compress: false,
 				smoothStreaming: false,
 				viewerProtocolPolicy: Cf.ViewerProtocolPolicy.ALLOW_ALL,
+				cachePolicy: new Cf.CachePolicy(this, 'defaultCachePolicy', {
+					defaultTtl: Duration.seconds(1),
+					headerBehavior: CacheHeaderBehavior.allowList('accept-encoding'),
+				}),
 			},
 			domainNames:
 				customDomainName !== undefined ? [customDomainName] : undefined,
