@@ -55,7 +55,7 @@ export const steps = (): StepRunner<World>[] => {
 
 			res = await fetch(url, {
 				method,
-				body,
+				body: ['POST', 'PUT'].includes(method) ? body : undefined,
 				headers,
 				redirect: 'manual',
 			})
@@ -111,6 +111,14 @@ export const steps = (): StepRunner<World>[] => {
 			if (match === null) return noMatch
 
 			assert.match(context.response?.body ?? '', new RegExp(match.regexp, 'i'))
+		},
+		async ({
+			step,
+			context,
+		}: StepRunnerArgs<World>): Promise<StepRunResult> => {
+			if (!/^the response body should equal$/.test(step.title)) return noMatch
+
+			assert.equal(context.response?.body ?? '', codeBlockOrThrow(step).code)
 		},
 	]
 }

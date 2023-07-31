@@ -68,11 +68,17 @@ module.exports = {
 					statusCode: 404,
 				}
 			}
+			const body = unmarshall(Item).payload
+			const base64Encode =
+				event.requestContext.http.headers['accept-encoding'] === 'base64'
 			return {
 				statusCode: 200,
-				body: unmarshall(Item).payload,
+				body: base64Encode
+					? Buffer.from(body, 'binary').toString('base64')
+					: body,
 				headers: {
 					'Content-type': 'text/plain; charset=utf-8',
+					'Content-encoding': base64Encode ? 'base64' : undefined,
 					...cacheHeaders,
 				},
 			}
@@ -81,9 +87,7 @@ module.exports = {
 				event.isBase64Encoded === true
 					? Buffer.from(event.body, 'base64').toString()
 					: event.body
-			const payload = body
-				.trim()
-				.slice(0, 255)
+			const payload = body.trim().slice(0, 255)
 			await db.send(
 				new PutItemCommand({
 					TableName,
