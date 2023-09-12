@@ -1,3 +1,11 @@
+---
+exampleContext:
+  variant:
+    protocol: https
+  domainName: echo.thingy.rocks
+  randomID: 9e69d1e3-614b-456b-9772-7982f4f358ed
+---
+
 # Encode the stored payload as base64
 
 > The stored content may be requested to be encoded using base64 in order to

@@ -2,6 +2,10 @@
 variants:
   - protocol: https
   - protocol: http
+exampleContext:
+  variant:
+    protocol: https
+  domainName: echo.thingy.rocks
 ---
 
 # Redirect to GitHub
