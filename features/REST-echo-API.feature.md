@@ -6,6 +6,11 @@ variants:
     contentType: application/octet-stream
   - protocol: http
     contentType: text/plain; charset=utf-8
+exampleContext:
+  variant:
+    protocol: https
+  domainName: echo.thingy.rocks
+  randomID: 9e69d1e3-614b-456b-9772-7982f4f358ed
 ---
 
 # Interacting with the REST echo API
