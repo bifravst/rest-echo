@@ -115,6 +115,7 @@ export const steps = (): StepRunner<World>[] => {
 						if (numTry < 5) {
 							await new Promise((resolve) => setTimeout(resolve, 1000))
 							log.progress(`Retrying ...`)
+							await req?.send()
 							continue
 						}
 						throw err
