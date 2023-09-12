@@ -69,8 +69,7 @@ module.exports = {
 				}
 			}
 			const body = unmarshall(Item).payload
-			const base64Encode =
-				event.headers?.['accept-encoding'] === 'base64'
+			const base64Encode = event.headers?.['accept-encoding'] === 'base64'
 			return {
 				statusCode: 200,
 				body: base64Encode
