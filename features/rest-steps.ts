@@ -1,6 +1,7 @@
 import {
 	codeBlockOrThrow,
 	regExpMatchedStep,
+	type Logger,
 	type StepRunner,
 } from '@nordicsemiconductor/bdd-markdown'
 import { Type } from '@sinclair/typebox'
@@ -8,8 +9,49 @@ import assert from 'assert/strict'
 import { type World } from './run-features.js'
 import { parseRequest } from './parseRequest.js'
 
+const request = ({
+	context,
+	url,
+	method,
+	headers,
+	body,
+	log: { progress },
+}: {
+	context: Record<string, any>
+	log: Logger
+	url: URL
+	method: 'POST' | 'PUT' | 'GET' | 'DELETE'
+	headers?: Record<string, string>
+	body?: string
+}) => {
+	let statusCode: number | undefined = undefined
+	let response: Response | undefined = undefined
+	return {
+		send: async () => {
+			response = await fetch(url.toString(), {
+				method,
+				body: ['POST', 'PUT'].includes(method) ? body : undefined,
+				headers,
+				redirect: 'manual',
+			})
+			statusCode = response.status
+			progress(`${response.status} ${response.statusText}`)
+			let resBody: string | undefined = undefined
+			if (parseInt(response.headers.get('content-length') ?? '0', 10) > 0) {
+				resBody = await response.text()
+				progress(`< ${resBody}`)
+			}
+			progress(`x-amzn-trace-id: ${response.headers.get('x-amzn-trace-id')}`)
+			context.response = { body: resBody ?? '', headers: response.headers }
+			return response
+		},
+		statusCode: () => statusCode,
+		response: () => response,
+	}
+}
+
 export const steps = (): StepRunner<World>[] => {
-	let res: Response | undefined = undefined
+	let req: ReturnType<typeof request> | undefined
 	return [
 		regExpMatchedStep(
 			{
@@ -22,42 +64,35 @@ export const steps = (): StepRunner<World>[] => {
 						Type.Literal('PUT'),
 						Type.Literal('DELETE'),
 					]),
-					endpoint: Type.RegEx(/^https?:\/\/[^/]+/),
-					resource: Type.RegEx(/^\/.*/),
+					endpoint: Type.RegExp(/^https?:\/\/[^/]+/),
+					resource: Type.RegExp(/^\/.*/),
 					hasBody: Type.Optional(Type.Literal(' with')),
 				}),
 			},
-			async ({ match, step, log: { progress }, context }) => {
-				const url = new URL(match.resource, match.endpoint).toString()
+			async ({ match, step, log, context }) => {
+				const url = new URL(match.resource, match.endpoint)
 				const method = match.method ?? 'GET'
-				progress(`${method} ${url}`)
-				let body = undefined
-				let headers = undefined
+				log.progress(`${method} ${url}`)
+				let body: string | undefined = undefined
+				let headers: Record<string, string> | undefined = undefined
 				if (match.hasBody !== undefined) {
 					const parsed = parseRequest(codeBlockOrThrow(step).code)
 					for (const [k, v] of Object.entries(parsed.headers)) {
-						progress(`> ${k}: ${v}`)
+						log.progress(`> ${k}: ${v}`)
 					}
-					progress(`> ${parsed.body}`)
+					log.progress(`> ${parsed.body}`)
 					body = parsed.body
 					headers = parsed.headers
 				}
-
-				res = await fetch(url, {
+				req = request({
+					url,
 					method,
 					body: ['POST', 'PUT'].includes(method) ? body : undefined,
 					headers,
-					redirect: 'manual',
+					context,
+					log,
 				})
-
-				progress(`${res.status} ${res.statusText}`)
-				let resBody: string | undefined = undefined
-				if (parseInt(res.headers.get('content-length') ?? '0', 10) > 0) {
-					resBody = await res.text()
-					progress(`< ${resBody}`)
-				}
-				progress(`x-amzn-trace-id: ${res.headers.get('x-amzn-trace-id')}`)
-				context.response = { body: resBody ?? '', headers: res.headers }
+				await req.send()
 			},
 		),
 		regExpMatchedStep(
@@ -70,8 +105,21 @@ export const steps = (): StepRunner<World>[] => {
 					code: (s) => parseInt(s, 10),
 				},
 			},
-			async ({ match }) => {
-				assert.equal(res?.status, match.code)
+			async ({ match, log }) => {
+				let numTry = 0
+				do {
+					try {
+						assert.equal(req?.statusCode(), match.code)
+						return
+					} catch (err) {
+						if (numTry++ < 5) {
+							await new Promise((resolve) => setTimeout(resolve, 1000))
+							log.progress(`Retrying ...`)
+							continue
+						}
+						throw err
+					}
+				} while (true)
 			},
 		),
 		regExpMatchedStep(

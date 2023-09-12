@@ -26,7 +26,7 @@ exampleContext:
 
 When I POST to `${variant.protocol}://${domainName}/new`
 
-Then the response status code should be `201`
+Soon the response status code should be `201`
 
 And the response body should be a string matching
 `^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$`
@@ -43,13 +43,13 @@ Content-type: <variant.contentType>
 connect:anything
 ```
 
-Then the response status code should be `202`
+Soon the response status code should be `202`
 
 ## I can read back the value
 
 When I GET `${variant.protocol}://${domainName}/${randomID}`
 
-Then the response status code should be `200`
+Soon the response status code should be `200`
 
 And the response body should be a string matching `^connect:anything$`
 
@@ -57,14 +57,10 @@ And the response body should be a string matching `^connect:anything$`
 
 When I DELETE `${variant.protocol}://${domainName}/${randomID}`
 
-Then the response status code should be `202`
-
-<!-- @retry:delayExecution=2000 -->
+Soon the response status code should be `202`
 
 ## The deleted value can no longer be read
 
 When I GET `${variant.protocol}://${domainName}/${randomID}`
-
-<!-- @retryScenario @retry:tries=10,initialDelay=2000,delayFactor=2 -->
 
 Soon the response status code should be `404`

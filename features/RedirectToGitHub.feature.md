@@ -16,7 +16,7 @@ exampleContext:
 
 When I GET `${variant.protocol}://${domainName}/`
 
-Then the response status code should be `302`
+Soon the response status code should be `302`
 
 And the response `location` header should equal
 `https://github.com/bifravst/rest-echo`

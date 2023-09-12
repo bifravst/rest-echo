@@ -25,7 +25,7 @@ Content-type: application/octet-stream
 connect:anything
 ```
 
-Then the response status code should be `202`
+Soon the response status code should be `202`
 
 ## I can read back the base64 encoded value
 
@@ -35,7 +35,7 @@ When I GET `https://${domainName}/${randomID}` with
 Accept-Encoding: base64
 ```
 
-Then the response status code should be `200`
+Soon the response status code should be `200`
 
 And the response body should equal
 
