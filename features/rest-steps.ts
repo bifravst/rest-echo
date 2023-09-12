@@ -112,14 +112,14 @@ export const steps = (): StepRunner<World>[] => {
 						assert.equal(req?.statusCode(), match.code)
 						return
 					} catch (err) {
-						if (numTry++ < 5) {
+						if (numTry < 5) {
 							await new Promise((resolve) => setTimeout(resolve, 1000))
 							log.progress(`Retrying ...`)
 							continue
 						}
 						throw err
 					}
-				} while (true)
+				} while (numTry++ < 5)
 			},
 		),
 		regExpMatchedStep(
