@@ -48,7 +48,7 @@
     "husky": "8.0.3",
     "jsonata": "2.0.3",
     "prettier": "3.0.3",
-    "tsx": "3.12.9",
+    "tsx": "3.12.10",
     "typescript": "5.2.2"
   },
   "lint-staged": {
