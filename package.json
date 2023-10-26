@@ -6,7 +6,7 @@
   "scripts": {
     "prepare": "husky install && check-node-version --package",
     "test:e2e": "npx tsx --no-warnings ./features/run-features.ts > e2e-test-result.json && cat e2e-test-result.json | npx tsx --no-warnings ./features/console-reporter.ts --only-failed --with-timestamps",
-    "test": "find ./ -type f -name \\*.spec.ts -not -path './nrfcloud-application-protocols/*' | xargs npx tsx --test --test-reporter spec"
+    "test": "tsx --test ./**/*.spec.ts"
   },
   "repository": {
     "type": "git",
