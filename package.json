@@ -52,7 +52,7 @@
     "husky": "8.0.3",
     "jsonata": "2.0.3",
     "prettier": "3.0.3",
-    "tsx": "4.1.0",
+    "tsx": "4.1.1",
     "typescript": "5.2.2"
   },
   "lint-staged": {
