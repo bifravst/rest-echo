@@ -33,7 +33,7 @@
     "@aws-sdk/util-dynamodb": "3.454.0",
     "@commitlint/config-conventional": "18.4.2",
     "@nordicsemiconductor/asset-tracker-cloud-code-style": "12.0.111",
-    "@nordicsemiconductor/bdd-markdown": "7.0.12",
+    "@nordicsemiconductor/bdd-markdown": "7.0.13",
     "@nordicsemiconductor/cloudformation-helpers": "9.0.2",
     "@nordicsemiconductor/eslint-config-asset-tracker-cloud-typescript": "16.0.23",
     "@swc/cli": "0.1.63",
