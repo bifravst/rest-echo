@@ -57,7 +57,7 @@ export class CloudFront extends Construct {
 							`arn:aws:acm:us-east-1:${
 								Stack.of(this).account
 							}:certificate/${customDomainCertificateId}`,
-					  )
+						)
 					: undefined,
 		})
 		this.domainName =
