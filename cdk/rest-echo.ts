@@ -23,6 +23,6 @@ new RestEchoApp({
 			? {
 					domainName: process.env.DOMAIN_NAME,
 					certificateId: process.env.CERTIFICATE_ID,
-			  }
+				}
 			: undefined,
 })
