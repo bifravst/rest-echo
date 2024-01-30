@@ -4,7 +4,7 @@
   "description": "A REST echo server used for the Nordic Developer Academy developed using AWS CDK in TypeScript.",
   "type": "module",
   "scripts": {
-    "prepare": "husky install && check-node-version --package",
+    "prepare": "husky && check-node-version --package",
     "test:e2e": "npx tsx --no-warnings ./features/run-features.ts > e2e-test-result.json && cat e2e-test-result.json | npx tsx --no-warnings ./features/console-reporter.ts --only-failed --with-timestamps",
     "test": "tsx --test ./**/*.spec.ts"
   },
@@ -49,7 +49,7 @@
     "eslint-plugin-import": "2.29.1",
     "eslint-plugin-prefer-arrow": "1.2.3",
     "eslint-plugin-unicorn": "50.0.1",
-    "husky": "8.0.3",
+    "husky": "9.0.7",
     "jsonata": "2.0.3",
     "prettier": "3.2.4",
     "tsx": "4.7.0",
