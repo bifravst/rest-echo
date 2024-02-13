@@ -5,7 +5,7 @@ variants:
 exampleContext:
   variant:
     protocol: https
-  domainName: echo.thingy.rocks
+  domainName: rest.nordicsemi.academy
 ---
 
 # Redirect to GitHub

@@ -8,12 +8,12 @@ export class RestEchoApp extends App {
 		...args
 	}: ConstructorParameters<typeof RestEchoStack>[1] & {
 		isTest: boolean
-		customDomain?: { domainName: string; certificateId: string }
+		customDomain?: { domainNames: string[]; certificateId: string }
 	}) {
 		super({
 			context: {
 				isTest,
-				customDomainName: customDomain?.domainName,
+				customDomainNames: customDomain?.domainNames,
 				customDomainCertificateId: customDomain?.certificateId,
 			},
 		})

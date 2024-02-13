@@ -8,10 +8,11 @@ import { steps as restSteps } from './rest-steps.js'
 import { store } from './storage.js'
 import type { StackOutputs } from '../cdk/stacks/RestEchoStack.js'
 
-const domainName =
-	process.env.DOMAIN_NAME ??
+const domainName = (
+	process.env.DOMAIN_NAMES ??
 	(await stackOutput(new CloudFormationClient({}))<StackOutputs>(STACK_NAME))
-		.domainName
+		.domainNames
+).split(',')[0] as string
 
 export type World = {
 	domainName: string

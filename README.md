@@ -61,8 +61,8 @@ Optionally, if you are using a custom domain name, store the domain name and the
 AWS certificate ID:
 
 ```bash
-gh variable set DOMAIN_NAME --env production --body "echo.thingy.rocks"
-gh variable set CERTIFICATE_ID --env production --body "067dc75e-e8a7-4a28-aaa8-ff26f43f639c"
+gh variable set DOMAIN_NAMES --env production --body "rest.nordicsemi.academy,echo.thingy.rocks"
+gh variable set CERTIFICATE_ID --env production --body "ff6dc724-ac8d-4328-8f86-628126771d67"
 ```
 
 ## CI

@@ -11,7 +11,7 @@ import type { RESTAPI } from './RESTAPI'
 import { CacheHeaderBehavior } from 'aws-cdk-lib/aws-cloudfront'
 
 export class CloudFront extends Construct {
-	public readonly domainName: string
+	public readonly domainNames: string[]
 	public constructor(parent: Construct, restAPI: RESTAPI) {
 		super(parent, 'CloudFront')
 
@@ -27,7 +27,7 @@ export class CloudFront extends Construct {
 			},
 		)
 
-		const customDomainName = this.node.tryGetContext('customDomainName')
+		const customDomainNames = this.node.tryGetContext('customDomainNames')
 		const customDomainCertificateId = this.node.tryGetContext(
 			'customDomainCertificateId',
 		)
@@ -47,7 +47,7 @@ export class CloudFront extends Construct {
 				}),
 			},
 			domainNames:
-				customDomainName !== undefined ? [customDomainName] : undefined,
+				customDomainNames !== undefined ? customDomainNames : undefined,
 			certificate:
 				customDomainCertificateId !== undefined
 					? CertificateManager.Certificate.fromCertificateArn(
@@ -60,9 +60,9 @@ export class CloudFront extends Construct {
 						)
 					: undefined,
 		})
-		this.domainName =
-			customDomainName === undefined
-				? distribution.domainName
-				: customDomainName
+		this.domainNames =
+			customDomainNames === undefined
+				? [distribution.domainName]
+				: customDomainNames
 	}
 }

@@ -18,10 +18,10 @@ new RestEchoApp({
 	}),
 	isTest: process.env.CI === '1',
 	customDomain:
-		process.env.DOMAIN_NAME !== undefined &&
+		process.env.DOMAIN_NAMES !== undefined &&
 		process.env.CERTIFICATE_ID !== undefined
 			? {
-					domainName: process.env.DOMAIN_NAME,
+					domainNames: process.env.DOMAIN_NAMES.split(','),
 					certificateId: process.env.CERTIFICATE_ID,
 				}
 			: undefined,
