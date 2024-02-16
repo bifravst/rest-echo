@@ -85,7 +85,7 @@
       ]
     ]
   },
-  "prettier": "@nordicsemiconductor/asset-tracker-cloud-code-style/.prettierrc",
+  "prettier": "@bifravst/prettier-config",
   "dependencies": {
     "@nordicsemiconductor/from-env": "3.0.0"
   }
