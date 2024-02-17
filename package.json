@@ -87,6 +87,6 @@
   },
   "prettier": "@bifravst/prettier-config",
   "dependencies": {
-    "@nordicsemiconductor/from-env": "3.0.0"
+    "@nordicsemiconductor/from-env": "3.0.1"
   }
 }
