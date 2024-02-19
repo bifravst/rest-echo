@@ -72,7 +72,7 @@ export const steps = (): StepRunner<World>[] => {
 			async ({ match, step, log, context }) => {
 				const url = new URL(match.resource, match.endpoint)
 				const method = match.method ?? 'GET'
-				log.progress(`${method} ${url}`)
+				log.progress(`${method} ${url.toString()}`)
 				let body: string | undefined = undefined
 				let headers: Record<string, string> | undefined = undefined
 				if (match.hasBody !== undefined) {
@@ -132,6 +132,7 @@ export const steps = (): StepRunner<World>[] => {
 					expected: Type.String(),
 				}),
 			},
+			// eslint-disable-next-line @typescript-eslint/require-await
 			async ({ match, context }) => {
 				assert.equal(
 					context.response?.headers.get(match.header),
@@ -147,6 +148,7 @@ export const steps = (): StepRunner<World>[] => {
 					regexp: Type.String(),
 				}),
 			},
+			// eslint-disable-next-line @typescript-eslint/require-await
 			async ({ match, context }) => {
 				assert.match(
 					context.response?.body ?? '',
@@ -156,6 +158,7 @@ export const steps = (): StepRunner<World>[] => {
 		),
 		{
 			match: (title) => /^the response body should equal$/.test(title),
+			// eslint-disable-next-line @typescript-eslint/require-await
 			run: async ({ step, context }) => {
 				assert.equal(context.response?.body ?? '', codeBlockOrThrow(step).code)
 			},
