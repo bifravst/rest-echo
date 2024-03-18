@@ -7,7 +7,7 @@ import {
 	Stack,
 } from 'aws-cdk-lib'
 import { Construct } from 'constructs'
-import type { RESTAPI } from './RESTAPI'
+import type { RESTAPI } from './RESTAPI.js'
 import { CacheHeaderBehavior } from 'aws-cdk-lib/aws-cloudfront'
 
 export class CloudFront extends Construct {
