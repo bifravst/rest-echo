@@ -7,7 +7,6 @@ npm-debug.log
 .swc/
 cdk.out/
 dist/
-.envrc
 e2e-test-result.json
 test_suite_analysis/
 
