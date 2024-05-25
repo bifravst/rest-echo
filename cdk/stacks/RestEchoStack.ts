@@ -1,4 +1,5 @@
-import { App, CfnOutput, Stack } from 'aws-cdk-lib'
+import type { App } from 'aws-cdk-lib'
+import { CfnOutput, Stack } from 'aws-cdk-lib'
 import { CloudFront } from '../resources/CloudFront.js'
 import { ContinuousDeployment } from '../resources/ContinuousDeployment.js'
 import { RESTAPI } from '../resources/RESTAPI.js'
