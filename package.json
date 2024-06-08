@@ -46,7 +46,7 @@
     "constructs": "10.3.0",
     "husky": "9.0.11",
     "jsonata": "2.0.5",
-    "tsx": "4.13.3"
+    "tsx": "4.14.0"
   },
   "lint-staged": {
     "*.{md,json,yaml,yml}": [
