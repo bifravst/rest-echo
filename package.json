@@ -37,7 +37,7 @@
     "@nordicsemiconductor/bdd-markdown": "8.1.16",
     "@nordicsemiconductor/cloudformation-helpers": "9.1.0",
     "@swc/cli": "0.3.12",
-    "@swc/core": "1.5.25",
+    "@swc/core": "1.5.27",
     "aws-cdk": "2.145.0",
     "aws-cdk-lib": "2.145.0",
     "cdk": "2.145.0",
