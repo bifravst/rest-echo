@@ -31,11 +31,11 @@
     "@aws-sdk/client-dynamodb": "3.614.0",
     "@aws-sdk/client-iam": "3.614.0",
     "@aws-sdk/util-dynamodb": "3.614.0",
+    "@bifravst/bdd-markdown": "8.2.3",
+    "@bifravst/cloudformation-helpers": "9.1.1",
     "@bifravst/eslint-config-typescript": "6.1.9",
     "@bifravst/prettier-config": "1.0.4",
     "@commitlint/config-conventional": "19.2.2",
-    "@nordicsemiconductor/bdd-markdown": "8.2.3",
-    "@nordicsemiconductor/cloudformation-helpers": "9.1.0",
     "@swc/cli": "0.4.0",
     "@swc/core": "1.6.13",
     "aws-cdk": "2.149.0",
@@ -80,6 +80,6 @@
   },
   "prettier": "@bifravst/prettier-config",
   "dependencies": {
-    "@nordicsemiconductor/from-env": "3.0.1"
+    "@bifravst/from-env": "3.0.2"
   }
 }

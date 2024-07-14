@@ -3,7 +3,7 @@ import {
 	regExpMatchedStep,
 	type Logger,
 	type StepRunner,
-} from '@nordicsemiconductor/bdd-markdown'
+} from '@bifravst/bdd-markdown'
 import { Type } from '@sinclair/typebox'
 import assert from 'assert/strict'
 import { type World } from './run-features.js'
