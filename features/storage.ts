@@ -1,4 +1,4 @@
-import { regExpMatchedStep } from '@nordicsemiconductor/bdd-markdown'
+import { regExpMatchedStep } from '@bifravst/bdd-markdown'
 import { Type } from '@sinclair/typebox'
 import jsonata from 'jsonata'
 import assert from 'node:assert/strict'

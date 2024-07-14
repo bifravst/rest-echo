@@ -1,6 +1,6 @@
 import { CloudFormationClient } from '@aws-sdk/client-cloudformation'
-import { runFolder } from '@nordicsemiconductor/bdd-markdown'
-import { stackOutput } from '@nordicsemiconductor/cloudformation-helpers'
+import { runFolder } from '@bifravst/bdd-markdown'
+import { stackOutput } from '@bifravst/cloudformation-helpers'
 import chalk from 'chalk'
 import * as path from 'path'
 import { STACK_NAME } from '../cdk/stacks/stackConfig.js'
