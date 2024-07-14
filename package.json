@@ -1,5 +1,5 @@
 {
-  "name": "@nordicsemiconductor/rest-echo",
+  "name": "@bifravst/rest-echo",
   "version": "0.0.0-development",
   "description": "A REST echo server used for the Nordic Developer Academy developed using AWS CDK in TypeScript.",
   "type": "module",
