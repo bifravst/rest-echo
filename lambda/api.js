@@ -8,6 +8,7 @@ const {
 } = require('@aws-sdk/client-dynamodb')
 const { unmarshall } = require('@aws-sdk/util-dynamodb')
 const { randomUUID } = require('node:crypto')
+const { GetParametersByPathCommand, SSMClient } = require('@aws-sdk/client-ssm')
 
 const db = new DynamoDBClient({})
 const TableName = process.env.TABLE_NAME
@@ -16,9 +17,99 @@ const cacheHeaders = {
 	'Cache-control': 'no-cache, no-store',
 }
 
+/**
+ * The endpoint URI uses the following format, where the Data Collection
+ * Endpoint and DCR Immutable ID identify the DCE and DCR.
+ * The immutable ID is generated for the DCR when it's created.
+ * You can retrieve it from the JSON view of the DCR in the Azure portal.
+ * Stream Name refers to the stream in the DCR that should handle the custom
+ * data.
+ *
+ * @see https://learn.microsoft.com/en-us/azure/azure-monitor/logs/logs-ingestion-api-overview#rest-api-call
+ */
+const tracker = ({ endpoint, dcrId, streamName, secret, debug }) => {
+	const url = new URL(
+		`${endpoint.toString().replaceAll(/\/$/g, '')}/dataCollectionRules/${dcrId}/streams/${streamName}?api-version=2023-01-01`,
+	)
+
+	debug?.('Tracking to', url.toString())
+
+	return async (
+		/**
+		 * `https` or `http`
+		 */
+		protocol,
+		/**
+		 * The REST method, e.g. `GET`, `POST`, `PUT`, or `DELETE`
+		 */
+		method,
+	) => {
+		const ts = new Date()
+		debug?.(
+			JSON.stringify([
+				{
+					TimeGenerated: ts.toISOString(),
+					Protocol: `REST:${protocol}`,
+					Action: method,
+				},
+			]),
+		)
+		await fetch(url, {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+				Authorization: `Bearer ${secret}`,
+			},
+			body: JSON.stringify([
+				{
+					TimeGenerated: ts.toISOString(),
+					Protocol: `REST:${protocol}`,
+					Action: method,
+				},
+			]),
+		})
+	}
+}
+
+const settingsPromise = (async () => {
+	const ssm = new SSMClient({})
+	const Path = `/${process.env.STACK_NAME ?? 'rest-echo'}/metrics/`
+	const { Parameters } = await ssm.send(
+		new GetParametersByPathCommand({
+			Path,
+			WithDecryption: true,
+		}),
+	)
+	return (Parameters ?? []).reduce(
+		(acc, { Name, Value }) => ({ ...acc, [Name.replace(Path, '')]: Value }),
+		{},
+	)
+})()
+
 module.exports = {
 	handler: async (event) => {
 		console.log(JSON.stringify({ event }))
+
+		// Metrics tracking
+		let track
+		const { endpoint, dcrId, streamName, secret } = await settingsPromise
+		if (
+			endpoint !== undefined &&
+			dcrId !== undefined &&
+			streamName !== undefined &&
+			secret !== undefined
+		) {
+			track = tracker({
+				endpoint,
+				dcrId,
+				streamName,
+				secret,
+				debug: (...args) => console.debug('[Metrics]', ...args),
+			})
+		} else {
+			console.debug(`[Metrics]`, 'disabled')
+		}
+
 		const method = event.requestContext.http.method
 		const path = event.requestContext.http.path
 		const keySegment = path.split('/')[1]
@@ -32,6 +123,7 @@ module.exports = {
 		}
 
 		console.log(JSON.stringify({ method, key }))
+		await track?.(event.headers['x-forwarded-proto'], method)
 
 		if (method === 'POST' && key === 'new') {
 			return {

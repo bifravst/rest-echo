@@ -3,6 +3,8 @@ import {
 	aws_dynamodb as DynamoDB,
 	aws_lambda as Lambda,
 	RemovalPolicy,
+	Stack,
+	aws_iam as IAM,
 } from 'aws-cdk-lib'
 import { RetentionDays } from 'aws-cdk-lib/aws-logs'
 import { Construct } from 'constructs'
@@ -37,8 +39,17 @@ export class RESTAPI extends Construct {
 			environment: {
 				TABLE_NAME: storage.tableName,
 				NODE_NO_WARNINGS: '1',
+				STACK_NAME: Stack.of(this).stackName,
 			},
 			logRetention: RetentionDays.ONE_DAY,
+			initialPolicy: [
+				new IAM.PolicyStatement({
+					actions: ['ssm:GetParametersByPath'],
+					resources: [
+						`arn:aws:ssm:${Stack.of(this).region}:${Stack.of(this).account}:parameter/${Stack.of(this).stackName}/*`,
+					],
+				}),
+			],
 		})
 		storage.grantReadWriteData(lambda)
 		this.lambdaURL = lambda.addFunctionUrl({
