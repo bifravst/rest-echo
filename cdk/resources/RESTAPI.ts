@@ -3,6 +3,7 @@ import {
 	aws_dynamodb as DynamoDB,
 	aws_lambda as Lambda,
 	RemovalPolicy,
+	Stack,
 } from 'aws-cdk-lib'
 import { RetentionDays } from 'aws-cdk-lib/aws-logs'
 import { Construct } from 'constructs'
@@ -37,6 +38,7 @@ export class RESTAPI extends Construct {
 			environment: {
 				TABLE_NAME: storage.tableName,
 				NODE_NO_WARNINGS: '1',
+				STACK_NAME: Stack.of(this).stackName,
 			},
 			logRetention: RetentionDays.ONE_DAY,
 		})

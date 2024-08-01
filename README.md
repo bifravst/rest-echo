@@ -24,6 +24,18 @@ Install the dependencies:
 npm ci
 ```
 
+### Configure Metrics (optional)
+
+Configure the metrics for Azure Monitor logs ingestion (used for usage metrics
+tracking):
+
+```bash
+aws ssm put-parameter --name /${STACK_NAME:-rest-echo}/metrics/endpoint --type String --value "<endpoint>"
+aws ssm put-parameter --name /${STACK_NAME:-rest-echo}/metrics/dcrId --type String --value "<dcrId>"
+aws ssm put-parameter --name /${STACK_NAME:-rest-echo}/metrics/streamName --type String --value "<streamName>"
+aws ssm put-parameter --name /${STACK_NAME:-rest-echo}/metrics/secret --type SecureString --value "<secret>"
+```
+
 ### Deploy
 
 ```bash
