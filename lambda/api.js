@@ -45,28 +45,21 @@ const tracker = ({ endpoint, dcrId, streamName, secret, debug }) => {
 		method,
 	) => {
 		const ts = new Date()
-		debug?.(
-			JSON.stringify([
-				{
-					TimeGenerated: ts.toISOString(),
-					Protocol: `REST:${protocol}`,
-					Action: method,
-				},
-			]),
-		)
+		const log = [
+			{
+				TimeGenerated: ts.toISOString(),
+				protocol: `REST:${protocol}`,
+				action: method,
+			},
+		]
+		debug?.(JSON.stringify(log))
 		await fetch(url, {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',
 				Authorization: `Bearer ${secret}`,
 			},
-			body: JSON.stringify([
-				{
-					TimeGenerated: ts.toISOString(),
-					Protocol: `REST:${protocol}`,
-					Action: method,
-				},
-			]),
+			body: JSON.stringify(log),
 		})
 	}
 }
