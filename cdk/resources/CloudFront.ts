@@ -6,9 +6,9 @@ import {
 	Fn,
 	Stack,
 } from 'aws-cdk-lib'
+import { CacheHeaderBehavior } from 'aws-cdk-lib/aws-cloudfront'
 import { Construct } from 'constructs'
 import type { RESTAPI } from './RESTAPI.js'
-import { CacheHeaderBehavior } from 'aws-cdk-lib/aws-cloudfront'
 
 export class CloudFront extends Construct {
 	public readonly domainNames: string[]

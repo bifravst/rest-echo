@@ -1,6 +1,6 @@
-import { parseRequest } from './parseRequest.js'
-import { describe, test as it } from 'node:test'
 import assert from 'node:assert'
+import { describe, test as it } from 'node:test'
+import { parseRequest } from './parseRequest.js'
 
 void describe('parseRequest()', () => {
 	void it('should parse method, resource, protocol, headers and body', () =>

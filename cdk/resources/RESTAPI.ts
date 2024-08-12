@@ -1,10 +1,10 @@
 import {
 	Duration,
 	aws_dynamodb as DynamoDB,
+	aws_iam as IAM,
 	aws_lambda as Lambda,
 	RemovalPolicy,
 	Stack,
-	aws_iam as IAM,
 } from 'aws-cdk-lib'
 import { RetentionDays } from 'aws-cdk-lib/aws-logs'
 import { Construct } from 'constructs'

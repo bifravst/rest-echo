@@ -3,10 +3,10 @@ import { runFolder } from '@bifravst/bdd-markdown'
 import { stackOutput } from '@bifravst/cloudformation-helpers'
 import chalk from 'chalk'
 import * as path from 'path'
+import type { StackOutputs } from '../cdk/stacks/RestEchoStack.js'
 import { STACK_NAME } from '../cdk/stacks/stackConfig.js'
 import { steps as restSteps } from './rest-steps.js'
 import { store } from './storage.js'
-import type { StackOutputs } from '../cdk/stacks/RestEchoStack.js'
 
 const domainName = (
 	process.env.DOMAIN_NAMES ??
