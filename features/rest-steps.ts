@@ -6,8 +6,8 @@ import {
 } from '@bifravst/bdd-markdown'
 import { Type } from '@sinclair/typebox'
 import assert from 'assert/strict'
-import { type World } from './run-features.js'
 import { parseRequest } from './parseRequest.js'
+import { type World } from './run-features.js'
 
 const request = ({
 	context,
