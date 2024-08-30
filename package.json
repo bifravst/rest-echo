@@ -27,7 +27,7 @@
   "license": "BSD-3-Clause",
   "devDependencies": {
     "@aws-sdk/client-cloudformation": "3.637.0",
-    "@aws-sdk/client-cloudwatch-logs": "3.637.0",
+    "@aws-sdk/client-cloudwatch-logs": "3.643.0",
     "@aws-sdk/client-dynamodb": "3.637.0",
     "@aws-sdk/client-iam": "3.637.0",
     "@aws-sdk/util-dynamodb": "3.637.0",
