@@ -80,7 +80,7 @@
   },
   "prettier": "@bifravst/prettier-config",
   "dependencies": {
-    "@aws-sdk/client-ssm": "3.651.1",
+    "@aws-sdk/client-ssm": "3.653.0",
     "@bifravst/from-env": "3.0.2"
   }
 }
