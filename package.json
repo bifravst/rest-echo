@@ -26,11 +26,11 @@
   "author": "Nordic Semiconductor ASA | nordicsemi.no",
   "license": "BSD-3-Clause",
   "devDependencies": {
-    "@aws-sdk/client-cloudformation": "3.664.0",
-    "@aws-sdk/client-cloudwatch-logs": "3.664.0",
-    "@aws-sdk/client-dynamodb": "3.664.0",
-    "@aws-sdk/client-iam": "3.664.0",
-    "@aws-sdk/util-dynamodb": "3.664.0",
+    "@aws-sdk/client-cloudformation": "3.665.0",
+    "@aws-sdk/client-cloudwatch-logs": "3.665.0",
+    "@aws-sdk/client-dynamodb": "3.665.0",
+    "@aws-sdk/client-iam": "3.665.0",
+    "@aws-sdk/util-dynamodb": "3.665.0",
     "@bifravst/bdd-markdown": "8.2.21",
     "@bifravst/cloudformation-helpers": "9.1.1",
     "@bifravst/eslint-config-typescript": "6.1.17",
@@ -80,7 +80,7 @@
   },
   "prettier": "@bifravst/prettier-config",
   "dependencies": {
-    "@aws-sdk/client-ssm": "3.664.0",
+    "@aws-sdk/client-ssm": "3.665.0",
     "@bifravst/from-env": "3.0.2"
   }
 }
