@@ -43,7 +43,7 @@
     "cdk": "2.161.1",
     "chalk": "5.3.0",
     "check-node-version": "4.2.1",
-    "constructs": "10.3.0",
+    "constructs": "10.3.1",
     "husky": "9.1.6",
     "jsonata": "2.0.5",
     "tsx": "4.19.1"
