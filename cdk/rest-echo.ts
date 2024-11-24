@@ -1,5 +1,5 @@
 import { IAMClient } from '@aws-sdk/client-iam'
-import pJSON from '../package.json'
+import pJSON from '../package.json' assert { type: 'json' }
 import { RestEchoApp } from './RestEchoApp.js'
 import { ensureGitHubOIDCProvider } from './ensureGitHubOIDCProvider.js'
 
