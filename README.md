@@ -78,25 +78,5 @@ gh variable set CERTIFICATE_ID --env production --body "ff6dc724-ac8d-4328-8f86-
 
 ## CI
 
-To set up continuous integration, prepare **a separate** AWS account and run the
-following command to create the necessary resources for GitHub Actions:
-
-```bash
-npx cdk -a 'npx tsx --no-warnings cdk/rest-echo-ci.ts' deploy
-```
-
-Create a GitHub environment `ci`.
-
-Store the role used for continuous integration as a secret:
-
-```bash
-CI_ROLE_ARN=`aws cloudformation describe-stacks --stack-name ${STACK_NAME:-rest-echo}-ci | jq -r '.Stacks[0].Outputs[] | select(.OutputKey == "roleArn") | .OutputValue'`
-gh secret set AWS_ROLE --env ci --body "${CI_ROLE_ARN}"
-```
-
-Store the stack name and the region as a variable:
-
-```bash
-gh variable set STACK_NAME --env ci --body "${STACK_NAME:-rest-echo}"
-gh variable set AWS_REGION --env ci --body "${AWS_REGION}"
-```
+We use [bifravst/ci](https://github.com/bifravst/ci) to set up resources and
+permissions for continuous integration.

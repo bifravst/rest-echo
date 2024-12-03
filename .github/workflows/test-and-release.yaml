@@ -11,7 +11,7 @@ permissions:
   actions: write
 
 env:
-  CI: 1
+  IS_TEST: 1
   FORCE_COLOR: 3
 
 jobs:
