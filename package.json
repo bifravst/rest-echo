@@ -31,7 +31,7 @@
     "@aws-sdk/client-dynamodb": "3.714.0",
     "@aws-sdk/client-iam": "3.714.0",
     "@aws-sdk/util-dynamodb": "3.714.0",
-    "@bifravst/bdd-markdown": "8.2.44",
+    "@bifravst/bdd-markdown": "8.2.45",
     "@bifravst/ci": "2.1.0",
     "@bifravst/cloudformation-helpers": "9.1.1",
     "@bifravst/eslint-config-typescript": "6.1.19",
