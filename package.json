@@ -28,9 +28,9 @@
   "devDependencies": {
     "@aws-sdk/client-cloudformation": "3.731.1",
     "@aws-sdk/client-cloudwatch-logs": "3.732.0",
-    "@aws-sdk/client-dynamodb": "3.731.1",
+    "@aws-sdk/client-dynamodb": "3.733.0",
     "@aws-sdk/client-iam": "3.731.1",
-    "@aws-sdk/util-dynamodb": "3.731.1",
+    "@aws-sdk/util-dynamodb": "3.733.0",
     "@bifravst/bdd-markdown": "8.2.50",
     "@bifravst/ci": "2.1.0",
     "@bifravst/cloudformation-helpers": "9.1.1",
