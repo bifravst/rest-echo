@@ -29,7 +29,7 @@
     "@aws-sdk/client-cloudformation": "3.741.0",
     "@aws-sdk/client-cloudwatch-logs": "3.741.0",
     "@aws-sdk/client-dynamodb": "3.741.0",
-    "@aws-sdk/client-iam": "3.741.0",
+    "@aws-sdk/client-iam": "3.742.0",
     "@aws-sdk/util-dynamodb": "3.741.0",
     "@bifravst/bdd-markdown": "8.2.51",
     "@bifravst/ci": "2.1.0",
