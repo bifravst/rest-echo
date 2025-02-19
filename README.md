@@ -12,6 +12,29 @@ A REST echo server used for the
 [AWS CDK](https://aws.amazon.com/cdk) in
 [TypeScript](https://www.typescriptlang.org/).
 
+## Usage example
+
+You can write, read, and delete values which are identified by the path.
+
+```bash
+# Generate a random ID
+http POST https://rest.nordicsemi.academy/new
+# HTTP/1.1 201 Created
+#
+# 179a85b8-a2db-4f82-a772-f4be29d4e322
+
+http PUT https://rest.nordicsemi.academy/179a85b8-a2db-4f82-a772-f4be29d4e322 <<< 'foo'
+# HTTP/1.1 202 Accepted
+
+http GET https://rest.nordicsemi.academy/179a85b8-a2db-4f82-a772-f4be29d4e322
+# HTTP/1.1 200 OK
+#
+# foo
+
+http DELETE https://rest.nordicsemi.academy/179a85b8-a2db-4f82-a772-f4be29d4e322
+# HTTP/1.1 202 Accepted
+```
+
 ## Installation in your AWS account
 
 ### Setup
