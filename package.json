@@ -40,7 +40,7 @@
     "@swc/cli": "0.6.0",
     "@swc/core": "1.10.18",
     "aws-cdk": "2.1000.3",
-    "aws-cdk-lib": "2.180.0",
+    "aws-cdk-lib": "2.181.0",
     "cdk": "2.1000.3",
     "chalk": "5.4.1",
     "check-node-version": "4.2.1",
