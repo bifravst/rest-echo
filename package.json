@@ -27,10 +27,10 @@
   "license": "BSD-3-Clause",
   "devDependencies": {
     "@aws-sdk/client-cloudformation": "3.758.0",
-    "@aws-sdk/client-cloudwatch-logs": "3.758.0",
-    "@aws-sdk/client-dynamodb": "3.758.0",
+    "@aws-sdk/client-cloudwatch-logs": "3.767.0",
+    "@aws-sdk/client-dynamodb": "3.767.0",
     "@aws-sdk/client-iam": "3.758.0",
-    "@aws-sdk/util-dynamodb": "3.758.0",
+    "@aws-sdk/util-dynamodb": "3.767.0",
     "@bifravst/bdd-markdown": "8.2.62",
     "@bifravst/ci": "2.1.0",
     "@bifravst/cloudformation-helpers": "9.1.1",
