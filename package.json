@@ -41,7 +41,7 @@
     "@swc/core": "1.13.5",
     "aws-cdk": "2.1029.3",
     "aws-cdk-lib": "2.216.0",
-    "cdk": "2.1029.2",
+    "cdk": "2.1029.3",
     "chalk": "5.6.2",
     "check-node-version": "4.2.1",
     "commitlint": "19.8.1",
