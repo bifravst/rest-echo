@@ -39,7 +39,7 @@
     "@commitlint/config-conventional": "19.8.1",
     "@swc/cli": "0.7.8",
     "@swc/core": "1.14.0",
-    "aws-cdk": "2.1031.0",
+    "aws-cdk": "2.1031.1",
     "aws-cdk-lib": "2.221.1",
     "cdk": "2.1031.0",
     "chalk": "5.6.2",
