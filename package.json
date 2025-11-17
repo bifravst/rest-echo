@@ -38,7 +38,7 @@
     "@bifravst/prettier-config": "1.1.13",
     "@commitlint/config-conventional": "19.8.1",
     "@swc/cli": "0.7.9",
-    "@swc/core": "1.15.1",
+    "@swc/core": "1.15.2",
     "aws-cdk": "2.1031.2",
     "aws-cdk-lib": "2.224.0",
     "cdk": "2.1031.2",
