@@ -37,7 +37,7 @@
     "@bifravst/eslint-config-typescript": "6.1.20",
     "@bifravst/prettier-config": "1.1.17",
     "@commitlint/config-conventional": "19.8.1",
-    "@swc/cli": "0.8.0",
+    "@swc/cli": "0.8.1",
     "@swc/core": "1.15.21",
     "aws-cdk": "2.1115.1",
     "aws-cdk-lib": "2.246.0",
