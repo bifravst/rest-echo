@@ -4,7 +4,7 @@
   "description": "A REST echo server used for the Nordic Developer Academy developed using AWS CDK in TypeScript.",
   "type": "module",
   "scripts": {
-    "prepare": "husky && check-node-version --package",
+    "prepare": "husky && case \"$npm_command\" in install|ci) check-node-version --package ;; esac",
     "test:e2e": "npx tsx --no-warnings ./features/run-features.ts > e2e-test-result.json && cat e2e-test-result.json | npx tsx --no-warnings ./features/console-reporter.ts --only-failed --with-timestamps",
     "test": "tsx --test ./**/*.spec.ts"
   },
@@ -61,7 +61,7 @@
   },
   "engines": {
     "node": ">=22",
-    "npm": ">=10"
+    "npm": ">=12.0.2 <13"
   },
   "release": {
     "branches": [
