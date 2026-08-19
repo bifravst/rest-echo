@@ -1,7 +1,7 @@
 import { IAMClient } from '@aws-sdk/client-iam'
 import { ensureGitHubOIDCProvider } from '@bifravst/ci'
-import pJSON from '../package.json' assert { type: 'json' }
-import { RestEchoApp } from './RestEchoApp.js'
+import pJSON from '../package.json' with { type: 'json' }
+import { RestEchoApp } from './RestEchoApp.ts'
 
 const repoUrl = new URL(pJSON.repository.url)
 const repository = {

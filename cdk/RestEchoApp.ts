@@ -1,5 +1,5 @@
 import { App } from 'aws-cdk-lib'
-import { RestEchoStack } from './stacks/RestEchoStack.js'
+import { RestEchoStack } from './stacks/RestEchoStack.ts'
 
 export class RestEchoApp extends App {
 	public constructor({

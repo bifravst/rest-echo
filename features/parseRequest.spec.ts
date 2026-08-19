@@ -1,6 +1,6 @@
 import assert from 'node:assert'
 import { describe, test as it } from 'node:test'
-import { parseRequest } from './parseRequest.js'
+import { parseRequest } from './parseRequest.ts'
 
 void describe('parseRequest()', () => {
 	void it('should parse method, resource, protocol, headers and body', () =>

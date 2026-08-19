@@ -21,9 +21,9 @@ jobs:
     timeout-minutes: 30
 
     steps:
-      - uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd # v5.0.1
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
-      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
         with:
           node-version: "22.x"
           cache: "npm"
@@ -47,7 +47,7 @@ jobs:
         run: npm test
 
       - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@7474bc4690e29a8392af63c5b98e7449536d5c3a # v4.3.1
+        uses: aws-actions/configure-aws-credentials@e6de054238d6b7531b4efff3b6587d9aade6a06c # v6.2.3
         with:
           # The role is set up via https://github.com/bifravst/ci
           # secrets.AWS_ACCOUNT_ID_CI is an organization secret
@@ -72,7 +72,8 @@ jobs:
       - name: Print failed End-to-End tests
         if: failure()
         run:
-          cat e2e-test-result.json | npx tsx --no-warnings
+          cat e2e-test-result.json | node --experimental-transform-types
+          --no-warnings --no-warnings
           ./features/console-reporter.ts  --only-failed --with-timestamps
 
       - name: Clean up End-to-End test resources
@@ -91,9 +92,9 @@ jobs:
     if: github.ref == 'refs/heads/saga'
 
     steps:
-      - uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd # v5.0.1
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
-      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
         with:
           node-version: "22.x"
           cache: "npm"
@@ -110,7 +111,7 @@ jobs:
         run: npx semantic-release
 
       - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@7474bc4690e29a8392af63c5b98e7449536d5c3a # v4.3.1
+        uses: aws-actions/configure-aws-credentials@e6de054238d6b7531b4efff3b6587d9aade6a06c # v6.2.3
         with:
           # The role is set up via https://github.com/bifravst/ci
           # secrets.AWS_ACCOUNT_ID_CI is an organization secret

@@ -1,9 +1,9 @@
 import type { App } from 'aws-cdk-lib'
 import { CfnOutput, Stack } from 'aws-cdk-lib'
-import { CloudFront } from '../resources/CloudFront.js'
-import { ContinuousDeployment } from '../resources/ContinuousDeployment.js'
-import { RESTAPI } from '../resources/RESTAPI.js'
-import { STACK_NAME } from './stackConfig.js'
+import { CloudFront } from '../resources/CloudFront.ts'
+import { ContinuousDeployment } from '../resources/ContinuousDeployment.ts'
+import { RESTAPI } from '../resources/RESTAPI.ts'
+import { STACK_NAME } from './stackConfig.ts'
 
 export class RestEchoStack extends Stack {
 	public constructor(
