@@ -6,7 +6,7 @@ import {
 	RemovalPolicy,
 	Stack,
 } from 'aws-cdk-lib'
-import { RetentionDays } from 'aws-cdk-lib/aws-logs'
+import { LogGroup, RetentionDays } from 'aws-cdk-lib/aws-logs'
 import { Construct } from 'constructs'
 import { readFileSync } from 'node:fs'
 import path from 'node:path'
@@ -41,7 +41,10 @@ export class RESTAPI extends Construct {
 				NODE_NO_WARNINGS: '1',
 				STACK_NAME: Stack.of(this).stackName,
 			},
-			logRetention: RetentionDays.ONE_DAY,
+			logGroup: new LogGroup(this, 'log-group', {
+				removalPolicy: RemovalPolicy.DESTROY,
+				retention: RetentionDays.ONE_DAY,
+			}),
 			initialPolicy: [
 				new IAM.PolicyStatement({
 					actions: ['ssm:GetParametersByPath'],
