@@ -33,7 +33,7 @@ export class RESTAPI extends Construct {
 			timeout: Duration.seconds(1),
 			memorySize: 512,
 			code: Lambda.Code.fromInline(
-				readFileSync(path.join(process.cwd(), 'lambda', 'api.ts'), 'utf-8'),
+				readFileSync(path.join(process.cwd(), 'lambda', 'api.js'), 'utf-8'),
 			),
 			description: 'Handle REST requests',
 			environment: {
