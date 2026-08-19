@@ -29,7 +29,7 @@ export class RESTAPI extends Construct {
 		const lambda = new Lambda.Function(this, 'lambda', {
 			handler: 'index.handler',
 			architecture: Lambda.Architecture.ARM_64,
-			runtime: Lambda.Runtime.NODEJS_18_X,
+			runtime: Lambda.Runtime.NODEJS_24_X,
 			timeout: Duration.seconds(1),
 			memorySize: 512,
 			code: Lambda.Code.fromInline(
