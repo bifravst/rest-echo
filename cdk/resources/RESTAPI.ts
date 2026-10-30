@@ -29,7 +29,8 @@ export class RESTAPI extends Construct {
 		const lambda = new Lambda.Function(this, 'lambda', {
 			handler: 'index.handler',
 			architecture: Lambda.Architecture.ARM_64,
-			runtime: Lambda.Runtime.NODEJS_26_X,
+			// The Node.js 26 runtime exists in Lambda, but is not yet available in the aws-cdk-lib types
+			runtime: new Lambda.Runtime('nodejs26.x', Lambda.RuntimeFamily.NODEJS),
 			timeout: Duration.seconds(1),
 			memorySize: 512,
 			code: Lambda.Code.fromInline(
