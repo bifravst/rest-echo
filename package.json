@@ -5,8 +5,8 @@
   "type": "module",
   "scripts": {
     "prepare": "husky && case \"$npm_command\" in install|ci) check-node-version --package ;; esac",
-    "test:e2e": "node --experimental-transform-types --no-warnings ./features/run-features.ts > e2e-test-result.json && cat e2e-test-result.json | node --experimental-transform-types --no-warnings ./features/console-reporter.ts --only-failed --with-timestamps",
-    "test": "node --experimental-transform-types --no-warnings --test ./**/*.spec.ts"
+    "test:e2e": "node --no-warnings ./features/run-features.ts > e2e-test-result.json && cat e2e-test-result.json | node --no-warnings ./features/console-reporter.ts --only-failed --with-timestamps",
+    "test": "node --no-warnings --test ./**/*.spec.ts"
   },
   "repository": {
     "type": "git",
