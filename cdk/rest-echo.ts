@@ -1,6 +1,7 @@
 import { IAMClient } from '@aws-sdk/client-iam'
 import { ensureGitHubOIDCProvider } from '@bifravst/ci'
 import pJSON from '../package.json' with { type: 'json' }
+import { packRestEchoLambdas } from './lambdas.ts'
 import { RestEchoApp } from './RestEchoApp.ts'
 
 const repoUrl = new URL(pJSON.repository.url)
@@ -12,6 +13,7 @@ const repository = {
 const iam = new IAMClient({})
 
 new RestEchoApp({
+	lambdaSources: await packRestEchoLambdas(),
 	repository,
 	gitHubOICDProviderArn: await ensureGitHubOIDCProvider({
 		iam,
