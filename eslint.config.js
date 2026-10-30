@@ -18,10 +18,10 @@ export default [
 		},
 	},
 	{
-		// ... and it is CommonJS running on Node.
+		// ... and it is an ES module running on Node.
 		files: ['lambda/api.js'],
 		languageOptions: {
-			sourceType: 'commonjs',
+			sourceType: 'module',
 			globals: globals.node,
 		},
 	},

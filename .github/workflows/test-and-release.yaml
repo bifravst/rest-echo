@@ -25,7 +25,7 @@ jobs:
 
       - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
         with:
-          node-version: ">=24.19.0 <25"
+          node-version: ">=26.12.1 <27"
           cache: "npm"
 
       - name: Install NPM version specified in package.json
@@ -72,8 +72,7 @@ jobs:
       - name: Print failed End-to-End tests
         if: failure()
         run:
-          cat e2e-test-result.json | node --experimental-transform-types
-          --no-warnings --no-warnings
+          cat e2e-test-result.json | node --no-warnings --no-warnings
           ./features/console-reporter.ts  --only-failed --with-timestamps
 
       - name: Clean up End-to-End test resources
@@ -96,7 +95,7 @@ jobs:
 
       - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
         with:
-          node-version: ">=24.19.0 <25"
+          node-version: ">=26.12.1 <27"
           cache: "npm"
 
       - name: Install NPM version specified in package.json

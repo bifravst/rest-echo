@@ -1,5 +1,6 @@
 import type { App } from 'aws-cdk-lib'
 import { CfnOutput, Stack } from 'aws-cdk-lib'
+import type { RestEchoLambdas } from '../lambdas.ts'
 import { CloudFront } from '../resources/CloudFront.ts'
 import { ContinuousDeployment } from '../resources/ContinuousDeployment.ts'
 import { RESTAPI } from '../resources/RESTAPI.ts'
@@ -9,9 +10,11 @@ export class RestEchoStack extends Stack {
 	public constructor(
 		parent: App,
 		{
+			lambdaSources,
 			repository,
 			gitHubOICDProviderArn,
 		}: {
+			lambdaSources: RestEchoLambdas
 			repository: {
 				owner: string
 				repo: string
@@ -21,7 +24,7 @@ export class RestEchoStack extends Stack {
 	) {
 		super(parent, STACK_NAME)
 
-		const api = new RESTAPI(this)
+		const api = new RESTAPI(this, lambdaSources.api)
 		const cf = new CloudFront(this, api)
 
 		if (this.node.tryGetContext('isTest') !== true) {
